@@ -9,9 +9,9 @@ heroFullScreen: true
 tagline: 这个人很懒，什么都没有留下...
 projects:
   - icon: article
-    name: 文章名称
-    desc: 文章详细描述
-    link: https://你的文章链接
+    name: 发布npm包
+    desc: 发布一个npm包到npmjs仓库并使用
+    link: /posts/npm/%E5%8F%91%E5%B8%83%E4%B8%80%E4%B8%AAnpm%E5%8C%85.html
 
 footer: Apache License
 ---
