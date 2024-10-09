@@ -16,6 +16,14 @@ export default navbar([
           { text: "发布一个npm包", icon: "pen-to-square", link: "发布一个npm包" },
         ],
       },
+      {
+        text: "vue",
+        icon: "pen-to-square",
+        prefix: "vue/",
+        children: [
+          { text: "发布一个vue组件库到npm仓库", icon: "pen-to-square", link: "写一个vue组件库并发布" },
+        ],
+      },
     ],
   },
   // {
