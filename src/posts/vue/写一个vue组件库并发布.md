@@ -93,7 +93,7 @@ defineProps({
 这里我们只是简单的做一个PopUp进行演示,可以在App.vue中导入进行调试
 效果如下
 
-![img](/vue/vue.1png "调试效果")
+![img](/vue/vue1.png "调试效果")
 
 编写components/popup/index.js
 
