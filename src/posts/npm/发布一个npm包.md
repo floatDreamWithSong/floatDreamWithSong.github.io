@@ -1,14 +1,18 @@
 ---
+
 cover: /assets/images/cover2.jpg
 icon: pen-to-square
 date: 2024-10-08
 category:
-  - npm
-tag:
-  - npm
-star: true
-sticky: true
+
+- npm
+  tag:
+- npm
+  star: true
+  sticky: true
+
 ---
+
 # 发布一个npm包到npmjs仓库并使用
 
 ## 搭建工程
@@ -16,7 +20,7 @@ sticky: true
 首先要创建一个npm包的工程
 这里我们使用的是pnpm包管理器和vite
 
-``` cmd
+```cmd
 pnpm create vite
 ```
 
@@ -26,7 +30,7 @@ pnpm create vite
 
 输入终端命令安装依赖（vite和tsc）
 
-``` cmd
+```cmd
 pnpm i
 ```
 
@@ -46,7 +50,7 @@ lib目录下就是我们主要写代码的地方，删除初始化生成的main.
 
 编写lib/format.ts:
 
-``` ts
+```ts
 // format.ts
 import moment, { MomentInput } from "moment";
 
@@ -66,7 +70,6 @@ export function formatTimestampToDate(
 export function formatDateToTimestamp(date: MomentInput) {
     return moment(date).valueOf();
 }
-
 ```
 
 在函数前加上jsdoc类型的注释，（VSC可以下载jsdoc插件）我们可以稍后在构建的时候生成对应文件的.d.ts文件声名，
@@ -74,7 +77,7 @@ export function formatDateToTimestamp(date: MomentInput) {
 
 在创建lib/index.ts，集中导出函数
 
-``` ts
+```ts
 export { formatTimestampToDate, formatDateToTimestamp } from "./format";
 ```
 
@@ -89,7 +92,7 @@ export { formatTimestampToDate, formatDateToTimestamp } from "./format";
 - include属性表示我们要生成声名文件的目标文件夹，将src更改为lib
 - 在compilerOption中:
 
-``` json
+```json
  "compilerOption" : {
   // 添加如下三项
   "declaration": true,
@@ -98,7 +101,6 @@ export { formatTimestampToDate, formatDateToTimestamp } from "./format";
   // 删除此项
   "noEmit": true, 
   }
-
 ```
 
 作为一个包，我们首先要配置：
@@ -111,7 +113,7 @@ export { formatTimestampToDate, formatDateToTimestamp } from "./format";
 
 设置build时的入口为/lib/index.ts
 
-``` ts
+```ts
 export default defineConfig({
   build: {
     lib: {
@@ -120,7 +122,6 @@ export default defineConfig({
     }
   }
 })
-
 ```
 
 接下来我们在命令行pnpm build，这将会在项目根目录生成dist目录（我们编译后的库文件所在）
@@ -128,7 +129,7 @@ export default defineConfig({
 
 可以看到types/format.d.ts如下：
 
-``` ts
+```ts
 import { MomentInput } from "moment";
 export declare function formatTimestampToDate(timestamp: MomentInput, formatter?: string): string;
 /**
@@ -137,24 +138,22 @@ export declare function formatTimestampToDate(timestamp: MomentInput, formatter?
  * @returns {Number} 返回时间戳，例如1689264000000
  */
 export declare function formatDateToTimestamp(date: MomentInput): number;
-
 ```
 
 ### pack前的配置
 
 package.json中设置声名文件入口为/types/index.d.ts
 
-``` ts
+```ts
 {
   "types": "./types/index.d.ts",
 }
-
 ```
 
 同时由于我们使用了moment.js作为依赖，因此在使用我们这个包时必须要安装
 moment包，我们要添加moment作为我们的对等依赖
 
-``` cmd
+```cmd
 pnpm add moment --save-peer
 ```
 
@@ -163,7 +162,7 @@ pnpm add moment --save-peer
 
 设置将库
 
-``` ts
+```ts
 export default defineConfig({
   build: {
     lib: {
@@ -180,7 +179,6 @@ export default defineConfig({
     }
   }
 })
-
 ```
 
 ### 包信息设置
@@ -196,7 +194,7 @@ file属性添加你要打包的文件
 
 如果不设置.npmignore，也会默认使用.gitignore
 
-``` json
+```json
 {
   "name": "vite-pak-demo",
   "private": false,
@@ -209,7 +207,6 @@ file属性添加你要打包的文件
     "types"
   ],
 }
-
 ```
 
 可以使用npm pack指令先生成一个包，tar -tf XXX.tgz进行解压预览
