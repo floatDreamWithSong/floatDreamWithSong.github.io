@@ -1,3 +1,15 @@
+---
+cover: /assets/images/cover2.jpg
+icon: pen-to-square
+date: 2024-10-18
+category:
+  - npm
+tag:
+  - npm
+  - node
+star: true
+sticky: true
+---
 # node package management tools 概览
 
 虽然npm早期其实是给nodejs用于组织文件和库使用的，但是也已经扩展到前端工程化

@@ -1,16 +1,14 @@
 ---
-
 cover: /assets/images/cover2.jpg
 icon: pen-to-square
 date: 2024-10-08
 category:
-
-- npm
-  tag:
-- npm
-  star: true
-  sticky: true
-
+  - npm
+tag:
+  - npm
+  - node
+star: true
+sticky: true
 ---
 
 # 发布一个npm包到npmjs仓库并使用
