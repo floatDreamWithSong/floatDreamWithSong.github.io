@@ -250,4 +250,116 @@ Spring给了一些以Aware结尾的接口，相当于又给了一坨生命周期
 
 springExpressionLanguage
 
-SpEL 是一种强大，简洁的装配 Bean 的方式，它可以通过运行期间执行的表达式将值装配到我们的属性或构造函数当中，更可以调用 JDK 中提供的静态常量，获取外部 Properties 文件中的的配置。
+SpEL 是一种强大，简洁的装配 Bean 的方式，它可以通过运行期间执行的表达式将值装配到我们的属性或构造函数当中，
+更可以调用 JDK 中提供的静态常量，获取外部 Properties 文件中的的配置。
+
+总的来说就是相当于运行时获取环境变量。还可以动态执行一些表达式。
+
+动态执行的表达式可以是一些java表达式，也可以是spel的一些特有语法，这些特有语法可以简化一些处理操作
+
+## aop
+
+``` xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aspects</artifactId>
+    <version>6.0.10</version>
+</dependency>
+
+```
+
+那么，如何使用AOP呢？首先我们要明确，要实现AOP操作，我们需要知道这些内容：
+
+1. 需要切入的类，类的哪个方法需要被切入
+2. 切入之后需要执行什么动作
+3. 是在方法执行前切入还是在方法执行后切入
+4. 如何告诉Spring需要进行切入
+
+以下是通过xml配置一个Aop的配置例子
+
+``` xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <bean id="aopTarget" class="com.spr.aoptest.AopTarget" />
+    <bean id="aopResource" class="com.spr.aoptest.AopResource"/>
+    <aop:config>
+        <!-- pointer，在目标点上切入 -->
+        <aop:pointcut id="aop1" expression="execution(* com.spr.aoptest.AopTarget.doSomething(..))"/>
+        <!-- 切入的面，哪些附加方法 -->
+        <aop:aspect ref="aopResource">
+            <aop:before method="PreDo" pointcut-ref="aop1" />
+        </aop:aspect>
+    </aop:config>
+</beans>
+```
+
+切入点如果是around的话，增强函数需要接受一个参数，我们可以在这个函数的前后做很多附加工作，在中途调用参数的proceed方法，手动触发
+
+欸，其实AOP的around很像前端的Proxy啊，感觉around可以适用大部分情况的处理了
+
+AOP 领域中的特性术语，防止自己下来看不懂文章：
+
+- 通知（Advice）: AOP 框架中的增强处理，通知描述了切面何时执行以及如何执行增强处理，也就是我们上面编写的方法实现。
+- 连接点（join point）: 连接点表示应用执行过程中能够插入切面的一个点，这个点可以是方法的调用、异常的抛出，实际上就是我们在方法执行前或是执行后需要做的内容。
+- 切点（PointCut）: 可以插入增强处理的连接点，可以是方法执行之前也可以方法执行之后，还可以是抛出异常之类的。
+- 切面（Aspect）: 切面是通知和切点的结合，我们之前在xml中定义的就是切面，包括很多信息。
+- 引入（Introduction）：引入允许我们向现有的类添加新的方法或者属性。
+- 织入（Weaving）: 将增强处理添加到目标对象中，并创建一个被增强的对象，我们之前都是在将我们的增强处理添加到目标对象，也就是织入（这名字挺有文艺范的）
+
+通过接口来实现AOP：
+
+woc，你会发现通过接口来实现更像proxy一些，而且更集中更方便
+
+```java
+public class StudentAOP implements MethodBeforeAdvice, AfterReturningAdvice {
+    @Override
+    public void before(Method method, Object[] args, Object target) throws Throwable {
+        System.out.println("通过Advice实现AOP");
+    }
+
+    @Override
+    public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
+        System.out.println("我是方法执行之后的结果，方法返回值为："+returnValue);
+    }
+}
+```
+
+around可以用拦截器，也很舒服
+
+```java
+public class StudentAOP implements MethodInterceptor {   //实现MethodInterceptor接口
+    @Override
+    public Object invoke(MethodInvocation invocation) throws Throwable {  //invoke方法就是代理方法
+        Object value = invocation.proceed();   //跟之前一样，需要手动proceed()才能调用原方法
+        return value+"增强";
+    }
+}
+```
+
+注解实现Aop
+
+1. 在主类添加`@EnableAspectJAutoProxy`注解
+2. 类上直接添加`@Component`快速注册Bean
+3. 在定义AOP增强操作的类上添加`@Aspect`注解和`@Component`将其注册为Bean
+4. 在增强方法前添加接入点注解，比如`@Before("execution(* org.example.entity.Student.study())")`
+5. 我们可以为增强方法添加`JoinPoint`参数来获取切入点信息，比如可以调用参数的`getArgs()`
+6. 可以通过命名绑定来无侵入获取代理对象方法的参数信息
+
+``` java
+@Before(value = "execution(* org.example.entity.Student.study(..)) && args(str)", argNames = "str")
+//命名绑定模式就是根据下面的方法参数列表进行匹配
+//这里args指明参数，注意需要跟原方法保持一致，然后在argNames中指明
+public void before(String str){
+    System.out.println(str);   //可以快速得到传入的参数
+    System.out.println("我是之前执行的内容！");
+}
+
+```
+
+选择需要的切入点注解就好了
+
+## 整点数据库吧

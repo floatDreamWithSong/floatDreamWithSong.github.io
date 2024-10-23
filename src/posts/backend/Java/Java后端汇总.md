@@ -6,7 +6,7 @@
 ## 基础知识
 
 Java核心，SQL，这些都不消说。
-SQL练习[!http://sqlmother.yupi.icu/#/learn]
+[SQL练习](http://sqlmother.yupi.icu/#/learn)
 
 ## Spring
 
