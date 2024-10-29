@@ -363,3 +363,9 @@ public void before(String str){
 选择需要的切入点注解就好了
 
 ## 整点数据库吧
+
+这里接入Mybatis
+
+普通使用Mybatis需要我们配置mapper，sql之类的
+
+我们可以用Spring来消除mybatis的xml配置

@@ -27,6 +27,15 @@ export default navbar([
           { text: "发布一个vue组件库到npm仓库", icon: "pen-to-square", link: "写一个vue组件库并发布" },
         ],
       },
+      {
+        text:'后端',
+        icon:"pen-to-square",
+        prefix:"backend/Java/",
+        children:[{
+          text:"SQL",
+          link:"SQL速通"
+        }]
+      }
     ],
   },
   // {

@@ -167,4 +167,4 @@ public class User {
 
 ```
 
-我们主要还是以selectOne和selectList，有时候又selectMap,另说，还有个普通的select，需要传入一个lambda
+我们主要还是以selectOne和selectList，有时候又selectMap,另说，还有个普通的select，需要传入一个lambda或者其他函数来处理
