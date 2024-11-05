@@ -9,7 +9,7 @@
     "cdev": "vuepress-vite dev src --clean-cache",
     "dev": "vuepress-vite dev src",
     "docs:update-package": "pnpm dlx vp-update",
-    "pub":"pub.cmd" 
+    "pub": "pub.cmd"
   },
   "devDependencies": {
     "@vuepress/bundler-vite": "2.0.0-rc.17",
@@ -17,5 +17,8 @@
     "vue": "^3.5.10",
     "vuepress": "2.0.0-rc.17",
     "vuepress-theme-hope": "2.0.0-rc.58"
+  },
+  "dependencies": {
+    "katex": "^0.16.11"
   }
 }

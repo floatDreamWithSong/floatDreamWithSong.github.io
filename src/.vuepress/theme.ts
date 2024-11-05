@@ -109,12 +109,12 @@ export default hopeTheme({
       size: true,
     },
 
-    // markdownMath: {
-    //   // 启用前安装 katex
-    //   type: "katex",
-    //   // 或者安装 mathjax-full
-    //   type: "mathjax",
-    // },
+    markdownMath: {
+      // 启用前安装 katex
+      type: "katex",
+      // 或者安装 mathjax-full
+      // type: "mathjax",
+    },
 
     // 此功能被开启用于演示，你应仅当使用时保留。
     markdownTab: true,
