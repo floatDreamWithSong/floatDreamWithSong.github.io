@@ -35,6 +35,15 @@ export default navbar([
           text:"SQL",
           link:"SQL速通"
         }]
+      },
+      {
+        text:'typescript',
+        icon:"pen-to-square",
+        prefix:"posts/Ts/",
+        children:[{
+          text:"Ts 泛型挑战",
+          link:"type挑战"
+        }]
       }
     ],
   },
