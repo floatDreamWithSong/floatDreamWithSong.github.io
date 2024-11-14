@@ -5,4 +5,5 @@ src/.vuepress/.temp/
 src/.vuepress/dist/
 demo
 pub.cmd
+.vscode
 day-dreamer-bolg.code-workspace
