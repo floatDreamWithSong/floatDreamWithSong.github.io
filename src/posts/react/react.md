@@ -53,3 +53,29 @@ React在开发环境下，会装载两次，卸载一次以自动测试组件的
 禁止在`useEffect`的回调函数中直接修改`state`，因为每次修改`state`都会触发组件的重新渲染，而重新渲染又会触发`useEffect`的回调函数，从而形成无限循环。
 
 [你可能不需要Effect](https://zh-hans.react.dev/learn/you-might-not-need-an-effect)
+
+## useReducer
+
+### 特点
+
+`useReducer`是`useState`的替代方案，相比`useState`，它更体现了一种`集中管理`、`纯函数`，将事件处理与状态管理分离开来的策略。
+
+### 用法
+
+```js
+const [state, dispatch] = useReducer(reducer, initState)
+```
+
+`reducer`是一个纯函数，用于计算新的状态。
+
+`dispatch`是一个函数，用于触发`reducer`，它的派发对象将作为`reducer`的第二个参数。
+
+`reducer`的返回值将作为新的状态。
+
+`reducer`函数：
+
+``` tsx
+reducer(state, action) => newState
+```
+
+`state`是当前的状态，`action`是派发对象，`newState`是新的状态。
