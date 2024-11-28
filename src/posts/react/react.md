@@ -79,3 +79,41 @@ reducer(state, action) => newState
 ```
 
 `state`是当前的状态，`action`是派发对象，`newState`是新的状态。
+
+## useMemo
+
+### 特点
+
+`useMemo`是`useCallback`的替代方案，相比`useCallback`，它更体现了一种`缓存`、`纯函数`，将事件处理与状态管理分离开来的策略。
+
+### 用法
+
+```js
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
+## useCallback
+
+### 特点
+
+`useCallback`是`useMemo`的替代方案，相比`useMemo`，它更体现了一种`缓存`、`纯函数`，将事件处理与状态管理分离开来的策略。
+
+### 用法
+
+```js
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b);
+}, [a, b]);
+```
+
+## memo
+
+### 特点
+
+`memo`是`useMemo`的替代方案，相比`useMemo`，它更体现了一种`缓存`、`纯函数`，将事件处理与状态管理分离开来的策略。
+
+### 用法
+
+```js
+const MemoizedComponent = memo(Component, areEqual);
+```
